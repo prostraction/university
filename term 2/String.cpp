@@ -10,7 +10,6 @@ private:
     };
     DATA* head = nullptr;
 public:
-    //void add(char* data);
     String ()
     {
         head = new DATA();
@@ -30,10 +29,8 @@ public:
         int counter = 0;
         while (i <= strlen(data))
         {
-            if (data[i] == ' ' || data[i+1] == '\0')
+            if (data[i] == ' ' || data[i] == '\0')
             {
-
-                if (data[i+1] == '\0') {counter++; i++;}
                 D->word = new char[counter+1];
                 for (int i = 0; i < counter; i++)
                     D->word[i] = ' ';
@@ -58,12 +55,7 @@ public:
         DATA* D = head;
         while (D && D->word != nullptr)
         {
-            /*
-             * for (int i = 0; i < D->length; i++)
-                std::cout << D->word[i];
-                */
-
-            std::cout << D->word;
+	    std::cout << D->word;
             std::cout << " ";
             D = D->next;
         }
