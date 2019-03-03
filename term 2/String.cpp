@@ -50,6 +50,7 @@ public:
             }
             counter++; i++;
         }
+	length--;
     }
     void show()
     {
