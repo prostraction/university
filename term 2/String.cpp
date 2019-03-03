@@ -1,6 +1,7 @@
 class String
 {
 private:
+    int length = 0;
     struct DATA
     {
         int length = 0;
@@ -41,6 +42,7 @@ public:
                     D->word[j] = data[k]; j++;
                 }
                 D->length = counter;
+		length = length + D->length + 1;
                 D->next = new DATA();
                 D->next->prev = D;
                 D = D->next;
