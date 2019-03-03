@@ -48,14 +48,13 @@ public:
             }
             counter++; i++;
         }
-
     }
     void show()
     {
         DATA* D = head;
         while (D && D->word != nullptr)
         {
-	    std::cout << D->word;
+        std::cout << D->word;
             std::cout << " ";
             D = D->next;
         }
@@ -83,7 +82,7 @@ public:
             }
             i++;
         } while (CH != '\n');
-
+        delete[] bufer;
     }
 
     void del(DATA* D)
@@ -97,6 +96,8 @@ public:
         {
             D->prev->next = nullptr;
         }
+        delete[] D->word;
+        delete D;
     }
 
     void del_per_num(int num)
@@ -121,6 +122,7 @@ public:
             D = D->next;
         }
         std::cout << "No valid element\n";
+        delete D;
     }
 
 };
