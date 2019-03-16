@@ -10,6 +10,7 @@ private:
         DATA* prev = nullptr;
     };
     DATA* head = nullptr;
+	DATA* D = nullptr;
 public:
     String ()
     {
@@ -23,7 +24,7 @@ public:
     void add(char* data)
     {
         if (head == nullptr) return;
-        DATA* D = head;
+        D = head;
         while (D->next != nullptr)
             D = D->next;
         int i = 0;
@@ -42,7 +43,7 @@ public:
                     D->word[j] = data[k]; j++;
                 }
                 D->length = counter;
-		length = length + D->length + 1;
+				length = length + D->length + 1;
                 D->next = new DATA();
                 D->next->prev = D;
                 D = D->next;
@@ -53,14 +54,13 @@ public:
     }
     void show()
     {
-        DATA* D = head;
+        D = head;
         while (D && D->word != nullptr)
         {
         std::cout << D->word;
             std::cout << " ";
             D = D->next;
         }
-        delete D;
     }
     void user_defined()
     {
@@ -116,7 +116,7 @@ public:
     }
     void del_per_word(char* search_word)
     {
-        DATA* D = head;
+        D = head;
         if (!D) return;
         while (D->next != nullptr)
         {
@@ -124,7 +124,6 @@ public:
             D = D->next;
         }
         std::cout << "No valid element\n";
-        delete D;
     }
 
 };
