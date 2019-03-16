@@ -31,6 +31,21 @@ public:
         }
         S = nullptr; delete S;
     }
+    ~String()
+    {
+        if ( !head )
+        {
+            delete head; return;
+        }
+        Symbol* temp = head;
+        while ( temp->next )
+        {
+            temp = head->next;
+            delete head;
+            head = temp;
+        }
+        delete head; delete temp;
+    }
     void add(char* income)
     {
         Symbol* S = head; int i = 0;
