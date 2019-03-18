@@ -38,6 +38,7 @@ public:
             E->next = new element(d);
             E->next->prev = E;
             tail = E->next;
+            tail->next = nullptr;
          }
     }
     void pushForw(int d)
