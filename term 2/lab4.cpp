@@ -13,7 +13,6 @@ class Deck
     };
     element* head;
     element* tail;
-    element* E;
 public:
     Deck()
     {
@@ -34,11 +33,12 @@ public:
         }
         else
         {
-            E = tail;
+            element* E = tail;
             E->next = new element(d);
             E->next->prev = E;
             tail = E->next;
             tail->next = nullptr;
+            E = nullptr; delete E;
          }
     }
     void pushFront(int d)
@@ -49,11 +49,12 @@ public:
         }
         else
         {
-            E = nullptr;
+            element* E = nullptr;
             E = new element(d);
             E->next = head;
             head->prev = E;
             head = E;
+            E = nullptr; delete E;
         }
     }
     bool isEmpty()
