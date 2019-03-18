@@ -69,6 +69,22 @@ public:
     {
         return head;
     }
+    void deleteFirst()
+    {
+        element* E = head->next;
+        delete head;
+        head = E;
+        E->prev = nullptr;
+        E = nullptr; delete E;
+    }
+    void deleteLast()
+    {
+        element* E = tail->prev;
+        delete tail;
+        tail = E;
+        E->nezt = nullptr;
+        E = nullptr; delete E;
+    }
 };
 
 
