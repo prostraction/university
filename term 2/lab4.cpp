@@ -41,7 +41,7 @@ public:
             tail->next = nullptr;
          }
     }
-    void pushForw(int d)
+    void pushFront(int d)
     {
         if (head == nullptr)
         {
@@ -77,7 +77,7 @@ int main()
     std::cout << "D is empty? " << D.isEmpty() << std::endl;
     for (int i = 1; i <= 5; i++) 
         D.pushBack(i);
-    D.pushForw(0);
+    D.pushFront(0);
     std::cout << *D.getFirst()->data << " -- " << *D.getLast()->data << std::endl;
     return 0;
 }
