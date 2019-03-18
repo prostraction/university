@@ -73,9 +73,8 @@ public:
 
 int main()
 {
-    Deck D_empty;
-    std::cout << "D is empty? " << D_empty.isEmpty() << std::endl;
     Deck D;
+    std::cout << "D is empty? " << D.isEmpty() << std::endl;
     for (int i = 1; i <= 5; i++) 
         D.pushBack(i);
     D.pushForw(0);
