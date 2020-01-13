@@ -34,7 +34,7 @@ int process()
             s = s * u;
         } while (s >= p);
         input[i] = x - 1;
-        if (input[i] >= 10) input[i] = 9;
+        if (input[i] >= 10) input[9]++;
         sum += x - 1;
     }
     std::cout << sum / N << std::endl;
