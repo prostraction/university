@@ -1,0 +1,241 @@
+#include <iostream>
+
+template <typename T>
+struct Tree
+{
+    T data;
+    bool marked;
+    Tree* root;
+    Tree* left;
+    Tree* right;
+    Tree()
+    {
+        root = left = right = nullptr;
+        marked = false;
+    }
+};
+
+template <typename T>
+class iterator
+{
+public:
+    iterator()
+    {
+        _current = nullptr;
+    }
+    iterator operator++ (int)
+    {
+        std::cout << "operator++ worked\n [non-static]";
+        return *this;
+    }
+    friend iterator* operator++ (iterator& it)
+    {
+        std::cout << "operator++ worked [friend]\n";
+        return it;
+    }
+    void nnext()
+    {
+        next();
+    }
+    friend iterator* operator-- (iterator &it)
+    {
+        //it.last();
+    }
+    friend iterator* operator== (iterator &it1, iterator &it2)
+    {
+        return (it1 == it2) ? true : false;
+    }
+    iterator* operator= (iterator &it)
+    {
+        this->_current = it._current;
+    }
+    void root(Tree<T> *new_current)
+    {
+        _current = new_current;
+    }
+    T get_value()
+    {
+        if (_current != nullptr)
+            return _current->data;
+        else
+        {
+            T t;
+            return t;
+        }
+    }
+    void* current()
+    {
+        return _current;
+    }
+private:
+    void next()
+    {
+        _current->marked = true;
+        if (_current->left != nullptr && !_current->left->marked)
+        {
+            _current = _current->left;
+            _current->marked = true;
+            //td::cout << "Moved left\n";
+        }
+        else if (_current->right != nullptr && !_current->right->marked)
+        {
+            _current = _current->right;
+            _current->marked = true;
+            //std::cout << "Moved right\n";
+        }
+        else
+        {
+            if (_current->root != nullptr)
+            {
+                _current = _current->root;
+                //std::cout << _current->data << ":  Moved up\n";
+                next();
+            }
+        }
+    }
+    void last()
+    {
+        _current->marked = false;
+        if (_current->root != nullptr)
+        {
+            _current = _current->root;
+            if (_current->left->marked)
+            {
+                _current = _current->left;
+                _current->marked = false;
+            }
+            else if (_current->right->marked)
+            {
+                _current = _current->right;
+                _current->marked = false;
+            }
+            else
+            {
+                if (_current->root != nullptr)
+                {
+                    _current = _current->root;
+                    last();
+                }
+            }
+        }
+    }
+    Tree<T>* _current;
+};
+
+template <typename T>
+class BinaryTree
+{
+public:
+    BinaryTree()
+    {
+        _begin = _end = _cbegin = _cend = nullptr;
+        root = nullptr;
+        last_added = nullptr;
+    }
+    iterator<T> *begin()
+    {
+        if (_begin == nullptr)
+            _begin = new iterator<T>;
+        return _begin;
+    }
+    iterator<T>* end()
+    {
+        if (_end == nullptr)
+            _end = new iterator<T>;
+        return _end;
+    }
+    iterator<T>* cbegin();
+    iterator<T>* cend();
+    void add_Tree(T to_be_added)
+    {
+          if (this->root == nullptr)
+          {
+                this->root = new Tree<T>;
+                this->root->data = to_be_added;
+                this->root->left = this->root->right = nullptr;
+                if (_begin == nullptr) {
+                    _begin = new iterator<T>;
+                    _end = new iterator<T>;
+                }
+                _begin->root(this->root);// = this->root;
+                _end->root(nullptr);
+                std::cout << _end->get_value() << " Tree end:    " << _end << std::endl;
+          }
+          if (to_be_added <= this->root->data)
+          {
+                if (this->root->left != nullptr)
+                {
+                     BinaryTree<T> N;
+                     N.root = this->root->left;
+                     //N._end = _end;
+                     N.add_Tree(to_be_added);
+                     _end = N.end();
+                }
+                else
+                {
+                     this->root->left = new Tree<T>;
+                     this->root->left->left = this->root->left->right = nullptr;
+                     this->root->left->data = to_be_added;
+                     this->root->left->root = this->root;
+                    if (_begin == nullptr) {
+                        _begin = new iterator<T>;
+                        _end = new iterator<T>;
+                    }
+                    _end->root(this->root->left);
+                    std::cout << _end->get_value() << " Tree end:    " << _end << std::endl;
+                }
+          }
+          if (to_be_added > this->root->data)
+          {
+               if (this->root->right != nullptr)
+               {
+                    BinaryTree<T> N;
+                    N.root = this->root->right;
+                    //N._end = _end;
+                    N.add_Tree(to_be_added);
+                    _end = N.end();
+               }
+               else
+               {
+                     this->root->right = new Tree<T>;
+                     this->root->right->left = this->root->right->right = nullptr;
+                     this->root->right->data = to_be_added;
+                     this->root->right->root = this->root;
+                   if (_begin == nullptr) {
+                       _begin = new iterator<T>;
+                       _end = new iterator<T>;
+                   }
+                    _end->root(this->root->right);
+                    std::cout << _end->get_value() << " Tree end:    " << _end << std::endl;
+               }
+          }
+    }
+private:
+    Tree<T>* root;
+    Tree<T>* last_added;
+    iterator<T> *_begin;
+    iterator<T> *_end;
+    iterator<T> *_cbegin;
+    iterator<T> *_cend;
+};
+
+
+
+int main()
+{
+    std::cout << "OK\n";
+    BinaryTree<int> *B = new BinaryTree<int>;
+    for (int i = 0; i < 10; i++)
+        B->add_Tree(i);
+    iterator<int> *it = B->begin();
+    std::cout << it->get_value() << " it begin:     " << it->current() << std::endl;
+    std::cout << "END: " << B->end()->current() << std::endl;
+    it->nnext();
+    while (it->current() != B->end()->current())
+    {
+        std::cout << it->get_value() << " it     " << it->current() << "     B->endl() = " << B->end()->current() << std::endl;
+        it->nnext();
+    }
+    std::cout << it->get_value() << " it     " << it->current() << "     B->endl() = " << B->end()->current() << std::endl;
+    return 0;
+}
